@@ -1,3 +1,6 @@
+# conda env
+.condaenv
+
 # dataset
 mnist-pngs/
 
