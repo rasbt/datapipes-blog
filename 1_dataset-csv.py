@@ -80,7 +80,7 @@ if __name__ == "__main__":
         batch_size=32,
         shuffle=True,  # want to shuffle the dataset
         num_workers=2,  # number processes/CPUs to use
-    )  
+    )
 
     val_dataset = MyDataset(
         csv_path="mnist-pngs/new_val.csv",
@@ -102,10 +102,7 @@ if __name__ == "__main__":
     )
 
     test_loader = DataLoader(
-        dataset=val_dataset,
-        batch_size=32,
-        shuffle=False,
-        num_workers=2
+        dataset=val_dataset, batch_size=32, shuffle=False, num_workers=2
     )
 
     num_epochs = 1
@@ -117,7 +114,7 @@ if __name__ == "__main__":
             print(" Batch index:", batch_idx, end="")
             print(" | Batch size:", y.shape[0], end="")
             print(" | x shape:", x.shape, end="")
-            print(" | y shape:", y.shape)            
+            print(" | y shape:", y.shape)
 
     print("Labels from current batch:", y)
 
