@@ -104,11 +104,11 @@ if __name__ == "__main__":
     )
 
     val_dp = build_data_pipe(
-        csv_file="mnist-pngs/new_val.csv", transform="test", len=5000, batch_size=32
+        csv_file="mnist-pngs/new_val.csv", transform="test", batch_size=32
     )
 
     test_dp = build_data_pipe(
-        csv_file="mnist-pngs/test.csv", transform="test", len=10000, batch_size=32
+        csv_file="mnist-pngs/test.csv", transform="test", batch_size=32
     )
 
     train_loader = DataLoader(dataset=train_dp, shuffle=True, num_workers=2)
