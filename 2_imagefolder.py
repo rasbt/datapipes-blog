@@ -1,36 +1,10 @@
-import os
-
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 import torchvision.utils as vutils
-from PIL import Image
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader
+from torch.utils.data.dataset import random_split
 from torchvision import transforms
-
-
-class MyDataset(Dataset):
-    def __init__(self, csv_path, img_dir, transform=None):
-
-        df = pd.read_csv(csv_path)
-        self.img_dir = img_dir
-        self.transform = transform
-
-        # based on DataFrame columns
-        self.img_names = df["filepath"]
-        self.labels = df["label"]
-
-    def __getitem__(self, index):
-        img = Image.open(os.path.join(self.img_dir, self.img_names[index]))
-
-        if self.transform is not None:
-            img = self.transform(img)
-
-        label = self.labels[index]
-        return img, label
-
-    def __len__(self):
-        return self.labels.shape[0]
+from torchvision.datasets import ImageFolder
 
 
 def viz_batch_images(batch):
@@ -69,41 +43,36 @@ if __name__ == "__main__":
         ),
     }
 
-    train_dataset = MyDataset(
-        csv_path="mnist-pngs/new_train.csv",
-        img_dir="mnist-pngs/",
-        transform=data_transforms["train"],
+    train_dataset = ImageFolder(
+        root="mnist-pngs/train", transform=data_transforms["train"]
+    )
+
+    train_dataset, val_dataset = random_split(train_dataset, lengths=[55000, 5000])
+
+    test_dataset = ImageFolder(
+        root="mnist-pngs/test", transform=data_transforms["test"]
     )
 
     train_loader = DataLoader(
         dataset=train_dataset,
         batch_size=32,
         shuffle=True,  # want to shuffle the dataset
-        num_workers=2,  # number processes/CPUs to use
-    )
-
-    val_dataset = MyDataset(
-        csv_path="mnist-pngs/new_val.csv",
-        img_dir="mnist-pngs/",
-        transform=data_transforms["test"],
-    )
+        num_workers=2,
+    )  # number processes/CPUs to use
 
     val_loader = DataLoader(
         dataset=val_dataset,
         batch_size=32,
-        shuffle=False,
+        shuffle=True,  # want to shuffle the dataset
         num_workers=2,
-    )
-
-    test_dataset = MyDataset(
-        csv_path="mnist-pngs/test.csv",
-        img_dir="mnist-pngs/",
-        transform=data_transforms["test"],
-    )
+    )  # number processes/CPUs to use
 
     test_loader = DataLoader(
-        dataset=test_dataset, batch_size=32, shuffle=False, num_workers=2
-    )
+        dataset=test_dataset,
+        batch_size=32,
+        shuffle=True,  # want to shuffle the dataset
+        num_workers=2,
+    )  # number processes/CPUs to use
 
     num_epochs = 1
     for epoch in range(num_epochs):
