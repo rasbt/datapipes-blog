@@ -34,4 +34,4 @@ Run the [`0_download-and-prep-data.ipynb`](0_download-and-prep-data.ipynb) noteb
 
 - [1_dataset-csv.py](1_dataset-csv.py): `python 1_dataset-csv.py`
 - [2_imagefolder.py](2_imagefolder.py):  `python 2_imagefolder.py`
-- [3_datapipes-csv.py](python 3_datapipes-csv.py): `python 3_datapipes-csv.py`
+- [3_datapipes-csv.py](3_datapipes-csv.py): `python 3_datapipes-csv.py`
