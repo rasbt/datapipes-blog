@@ -7,6 +7,7 @@ import torchvision.utils as vutils
 from PIL import Image
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
+from watermark import watermark
 
 
 class MyDataset(Dataset):
@@ -47,6 +48,8 @@ def viz_batch_images(batch):
 
 
 if __name__ == "__main__":
+
+    print(watermark(packages="torch,torchdata", python=True))
 
     data_transforms = {
         "train": transforms.Compose(
@@ -118,5 +121,6 @@ if __name__ == "__main__":
 
     print("Labels from current batch:", y)
 
-    batch = next(iter(train_loader))
-    viz_batch_images(batch)
+    # Uncomment to visualize a data batch:
+    # batch = next(iter(train_loader))
+    # viz_batch_images(batch[0])

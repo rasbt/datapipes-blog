@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader
 from torch.utils.data.dataset import random_split
 from torchvision import transforms
 from torchvision.datasets import ImageFolder
+from watermark import watermark
 
 
 def viz_batch_images(batch):
@@ -21,6 +22,8 @@ def viz_batch_images(batch):
 
 
 if __name__ == "__main__":
+
+    print(watermark(packages="torch,torchdata", python=True))
 
     data_transforms = {
         "train": transforms.Compose(
@@ -87,5 +90,6 @@ if __name__ == "__main__":
 
     print("Labels from current batch:", y)
 
-    batch = next(iter(train_loader))
-    viz_batch_images(batch)
+    # Uncomment to visualize a data batch:
+    # batch = next(iter(train_loader))
+    # viz_batch_images(batch[0])

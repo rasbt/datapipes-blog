@@ -7,6 +7,7 @@ from PIL import Image
 from torch.utils.data import DataLoader, default_collate
 from torchdata import datapipes as dp
 from torchvision import transforms
+from watermark import watermark
 
 IMG_ROOT = "mnist-pngs"
 
@@ -99,6 +100,8 @@ def build_data_pipe(csv_file, transform, len=1000, batch_size=32):
 
 if __name__ == "__main__":
 
+    print(watermark(packages="torch,torchdata", python=True))
+
     train_dp = build_data_pipe(
         csv_file="mnist-pngs/new_train.csv", transform="train", len=45000, batch_size=32
     )
@@ -133,5 +136,6 @@ if __name__ == "__main__":
 
     print("Labels from current batch:", y)
 
-    batch = next(iter(train_loader))
-    viz_batch_images(batch[0])
+    # Uncomment to visualize a data batch:
+    # batch = next(iter(train_loader))
+    # viz_batch_images(batch[0])
