@@ -1,4 +1,4 @@
-This is the complementary code for the article [Taking Datasets, DataLoaders, PyTorch’s New DataPipes for a Spin](https://sebastianraschka.com/blog/2022/datapipes.html).
+This is the complementary code for the article [Taking Datasets, DataLoaders, and PyTorch’s New DataPipes for a Spin](https://sebastianraschka.com/blog/2022/datapipes.html).
 
 
 
