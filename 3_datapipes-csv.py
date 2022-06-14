@@ -79,10 +79,11 @@ def build_data_pipe(csv_file, transform, len=1000, batch_size=32):
     new_dp = new_dp.map(create_path_label_pair)
     # returns tuples like ('mnist-pngs/train/0/16585.png', 0)
 
-    new_dp = new_dp.sharding_filter()
-
     if transform == "train":
         new_dp = new_dp.shuffle(buffer_size=len)
+
+    new_dp = new_dp.sharding_filter()
+    # important to use sharding_filter after (not before) shuffling
 
     new_dp = new_dp.map(open_image)
 
