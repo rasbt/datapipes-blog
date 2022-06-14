@@ -5,6 +5,7 @@ import numpy as np
 import torchvision.utils as vutils
 from PIL import Image
 from torch.utils.data import DataLoader, default_collate
+from torch.utils.data.backward_compatibility import worker_init_fn
 from torchdata import datapipes as dp
 from torchvision import transforms
 from watermark import watermark
@@ -78,6 +79,8 @@ def build_data_pipe(csv_file, transform, len=1000, batch_size=32):
     new_dp = new_dp.map(create_path_label_pair)
     # returns tuples like ('mnist-pngs/train/0/16585.png', 0)
 
+    new_dp = new_dp.sharding_filter()
+
     if transform == "train":
         new_dp = new_dp.shuffle(buffer_size=len)
 
@@ -114,11 +117,17 @@ if __name__ == "__main__":
         csv_file="mnist-pngs/test.csv", transform="test", batch_size=32
     )
 
-    train_loader = DataLoader(dataset=train_dp, shuffle=True, num_workers=2)
+    train_loader = DataLoader(
+        dataset=train_dp, shuffle=True, num_workers=2, worker_init_fn=worker_init_fn
+    )
 
-    val_loader = DataLoader(dataset=val_dp, shuffle=False, num_workers=2)
+    val_loader = DataLoader(
+        dataset=val_dp, shuffle=False, num_workers=2, worker_init_fn=worker_init_fn
+    )
 
-    test_loader = DataLoader(dataset=test_dp, shuffle=False, num_workers=2)
+    test_loader = DataLoader(
+        dataset=test_dp, shuffle=False, num_workers=2, worker_init_fn=worker_init_fn
+    )
 
     num_epochs = 1
     for epoch in range(num_epochs):
